@@ -1,6 +1,6 @@
-export default function fetchTracksUtil(token, limit) {
+export default function fetchTracksUtil(token, limit, genre) {
   return fetch(
-    "https://api.spotify.com/v1/playlists/2ihY1sy2Eask1kLJME0UhG/tracks",
+    `https://api.spotify.com/v1/playlists/${genre}/tracks`,
     {
       headers: { Authorization: "Bearer " + token }
     }
