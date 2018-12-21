@@ -103,7 +103,7 @@ fillPlaylist(token, trackUris, playlistId) {
                   )
                 }
               >
-                Add to your playlist{" "}
+                Add to your PLaylist{" "}
               </button>
             </div>
           </div>
