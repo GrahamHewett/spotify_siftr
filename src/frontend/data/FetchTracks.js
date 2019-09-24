@@ -39,9 +39,9 @@ export default class FetchTracks extends Component {
                     <div className="trackName">
                       {msConvert(track[3])}
                     </div>
-                    {/* <div className="starPoo">
-                      The poularity is ...
-                    </div> */}
+                    <div className="starPoo">
+                      The poularity is {track[4]}
+                    </div>
                   </div>
                 )
               })
