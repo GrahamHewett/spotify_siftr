@@ -4,7 +4,7 @@ export default function fetchTracksUtil(token, limit, genre) {
     {
       headers: { Authorization: "Bearer " + token }
     }
-  )
+  )     
     .then(response => response.json())
     .then(ptracks => {
       let pnames = ptracks.items.map(song => [

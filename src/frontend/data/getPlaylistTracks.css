@@ -35,10 +35,3 @@
     border-bottom: 1px outset rgba(28,110,164,0.54); 
     text-align: center;
 }
-.star1 {
-    display: flex;
-    flex: 1;
-    padding: 10px;
-    text-align: right;
-    border-bottom: 1px outset rgba(28,110,164,0.54); 
-}

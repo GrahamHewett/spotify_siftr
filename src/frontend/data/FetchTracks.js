@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./getPlaylistTracks.css";
-import starPop from "./StarPop";
+// import starPop from "./StarPop";
 
 function msConvert(millis) {
   var minutes = Math.floor(millis / 60000);
@@ -39,9 +39,9 @@ export default class FetchTracks extends Component {
                     <div className="trackName">
                       {msConvert(track[3])}
                     </div>
-                    <div className="star1">
-                      {starPop(track[4])}
-                    </div>
+                    {/* <div className="starPoo">
+                      The poularity is ...
+                    </div> */}
                   </div>
                 )
               })

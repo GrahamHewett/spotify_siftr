@@ -18,6 +18,7 @@
   "scripts": {
     "start-frontend": "react-scripts start",
     "start-backend": "node src/backend/oauth/server.js",
+    "start-both": "npm-run-all -p start-backend start-frontend",
     "start": "npm-run-all -s build _start-cold-server",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
