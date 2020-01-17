@@ -16,8 +16,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "_start-hot-server": "nodemon src/backend/oauth/server.js",
-    "_start-cold-server": "node src/backend/oauth/server.js"
+    "_start-hot-server": "nodemon src/backend/server.js",
+    "_start-cold-server": "node src/backend/server.js"
   },
   "proxy": "http://localhost:8888",
   "browserslist": {
