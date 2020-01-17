@@ -1,58 +1,45 @@
-import React, { Component } from "react";
-import "reset-css/reset.css";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import queryString from "query-string";
 import Header from "./frontend/views/Header";
-import FetchTracks from "./frontend/data/FetchTracks";
 import UserData from "./frontend/data/getUserData";
 import GenresGrid from "./frontend/views/GenresGrid";
-import Buttons from "./frontend/views/Buttons";
-import fetchTracksUtil from "./frontend/data/fetchTracksUtil";
-// import LoggedInHeader from "./frontend/views/loggedInHeader";
 import Slider from "./frontend/views/slider";
+import fetchTracksUtil from "./frontend/data/fetchTracksUtil";
+// import Buttons from "./frontend/views/Buttons";
+// import LoggedInHeader from "./frontend/views/loggedInHeader";
+// import FetchTracks from "./frontend/data/FetchTracks";
 // import CreatePLaylist from "./frontend/features/CreatePlaylist.js";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      serverData: {},
-      filterString: "",
-      limit: 20,
-      genre: "2ihY1sy2Eask1kLJME0UhG"
-    };
-  }
+export default function App() {
+  const [limit, setLimit] = useState(10);
+  const [genre, setGenre] = useState("2ihY1sy2Eask1kLJME0UhG");
+  const [accessToken, setAccessToken] = useState(undefined);
+  const [randomisedTracks, setRandomisedTracks] = useState(undefined);
 
-  componentDidMount() {
-    this.getTracks();
-  }
+  useEffect(() => {
+    setAccessToken(new URLSearchParams(document.location.search.substring(1)).get("access_token"))
+    // let parsed = queryString.parse(window.location.search);
+    // let accessToken = parsed.access_token;
+    if (accessToken) return;
+    fetchTracksUtil(accessToken, limit, genre)
+      .then(randomNames => {
+          setRandomisedTracks(randomNames)
+      });
+  }, [accessToken, limit, genre]) 
 
-  getTracks() {
-    let parsed = queryString.parse(window.location.search);
-    let accessToken = parsed.access_token;
-    if (!accessToken) return;
-    fetchTracksUtil(accessToken, this.state.limit, this.state.genre).then(
-      randomNames => {
-        this.setState({
-          randomisedTracks: randomNames,
-          accessToken
-        });
-      }
-    );
-  }
-  CreatePlaylist(token, tracks) {
+  const showPlaylist = (token, tracks) => {
     let trackUris = tracks.map(track => track[5]).join(',');
-    this.getUserId(token, trackUris)
+    getUserId(token, trackUris)
 }
-  getUserId(token, trackUris){
+  const getUserId = (token, trackUris) => {
     return fetch("https://api.spotify.com/v1/me", {
       headers: { Authorization: "Bearer " + token }
     })
       .then(response => response.json())
-      .then(data => this.createNewPlaylist(token, trackUris, data.id));
+      .then(data => createNewPlaylist(token, trackUris, data.id));
   }
 
-  createNewPlaylist(token, trackUris, user) {
+  const createNewPlaylist = (token, trackUris, user) => {
     return fetch(`https://api.spotify.com/v1/users/${user}/playlists`, {
       headers: {
         Authorization: "Bearer " + token,
@@ -66,9 +53,9 @@ class App extends Component {
       })
     })
         .then(response => response.json())
-        .then(newPlaylist => this.fillPlaylist(token , trackUris, newPlaylist.id))
+        .then(newPlaylist => fillPlaylist(token , trackUris, newPlaylist.id))
 }
-fillPlaylist(token, trackUris, playlistId) {
+const fillPlaylist = (token, trackUris, playlistId) => {
     return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?position=0&uris=${trackUris}`,
     {
         headers: { Authorization: "Bearer " + token},
@@ -76,60 +63,43 @@ fillPlaylist(token, trackUris, playlistId) {
         body: JSON.stringify({uris: trackUris})
     }).then(alert('Rock On! All tracks have been added to Siftr PLaylist on your spotify account.'))
 }
-  render() {
-    if (this.state.accessToken) {
-      return (
-        // if user is logged in display the code between ? and : otherwise
-        <div className="App">
-          <UserData acToken={this.state.accessToken} />
-          <GenresGrid
-            selectedGenre={this.state.genre}
-            onClick={playlistId => this.setState({ genre: playlistId })}
-          />
-          <div className="slider-container">
-            <div className="slider-container-box sl">
-              <Slider
-                limit={this.state.limit}
-                onChange={newLimit => this.setState({ limit: newLimit })}
-              />
-            </div>
-            <div className="slider-container-box">
-              <Buttons onGenerate={() => this.getTracks()} />
-              <button
-                onClick={() =>
-                  this.CreatePlaylist(
-                    this.state.accessToken,
-                    this.state.randomisedTracks
-                  )
-                }
-              >
-                Add to your PLaylist{" "}
-              </button>
-            </div>
-          </div>
-          {<UserData acToken={this.state.accessToken} /> ? (
-            <div>
-              <FetchTracks tracks={this.state.randomisedTracks} />
-            </div>
-          ) : (
-            <div>
-              <button
-                onClick={() => this.goToSpotify()}
-                style={{ padding: "20px", fontSize: "50px", marginTop: "20px" }}
-              >
-                Sign in with Spotify
-              </button>
-            </div>
-          )}
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <Header />
-        </div>
-      );
-    }
-  }
+
+const LoggedInContent = () => {
+  if (!accessToken) {
+    return <div>
+      <UserData acToken={accessToken} />
+      <GenresGrid
+      selectedGenre={genre}
+      onClick={playlistId => setGenre(playlistId)}
+    />
+    <div className="slider-container">
+      <div className="slider-container-box sl">
+        <Slider
+          limit={limit}
+          onChange={newLimit => setLimit(newLimit)}
+        />
+      </div>
+      <div className="slider-container-box">
+        {/* <Buttons onGenerate={() => getTracks()} /> */}
+        <button
+          onClick={() =>
+            showPlaylist(
+              accessToken,
+              randomisedTracks
+            )
+          }
+        >
+          Add to your Playlist{" "}
+        </button>
+      </div>
+    </div>
+    </div>
+  } return null;
 }
-export default App;
+      return (
+        <div className="App">
+          { true ? <LoggedInContent /> : <Header />}
+        </div>
+          // <FetchTracks tracks={randomisedTracks} />
+      );
+}

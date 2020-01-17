@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./UserData.css";
+import "./getUserData.css";
 
 export default class UserData extends Component {
   constructor() {

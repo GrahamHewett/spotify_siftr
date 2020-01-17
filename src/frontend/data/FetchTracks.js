@@ -1,18 +1,16 @@
-import React, { Component } from "react";
-import "./getPlaylistTracks.css";
-// import starPop from "./StarPop";
-
+import React from "react";
+import "./fetchTracks.css";
+import popularityNotes from './'
 function msConvert(millis) {
   var minutes = Math.floor(millis / 60000);
   var seconds = ((millis % 60000) / 1000).toFixed(0);
   return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 }
 
-export default class FetchTracks extends Component {
-  render() {
-    if (this.props.tracks.length === 0) {
+export default function FetchTracks({tracks}) {
+    if (tracks && tracks.length === 0) {
       return <div>loading..</div>;
-    } else {
+    } else if (tracks && tracks.length > 0){
       return (
         <div className="grandad">
           <div className="bigBoy">
@@ -24,7 +22,7 @@ export default class FetchTracks extends Component {
               <div className="title">Popularity</div>
             </div>
             {
-              this.props.tracks.map((track, i) => {
+              tracks.map((track, i) => {
                 return (
                   <div key = {`track ${i}`} className="trackDeets">
                     <div className="trackName">
@@ -49,5 +47,4 @@ export default class FetchTracks extends Component {
         </div>
       );
     }
-  }
 }

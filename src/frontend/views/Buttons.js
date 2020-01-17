@@ -1,22 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Buttons.css";
-class Buttons extends Component {
-  constructor() {
-    super();
-    this.state = {
-      clicked: false
-    };
-  }
 
-  render() {
-    return (
-      <div className="button-container">
-        <div className="button-box">
-          <button onClick={() => this.props.onGenerate()}>Generate</button>
-        </div>
+export default function Buttons({onGenerate}) {
+  return (
+    <div className="button-container">
+      <div className="button-box">
+        <button onClick={() => onGenerate()}>Generate</button>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default Buttons;
