@@ -1,0 +1,17 @@
+{
+  "name": "oauth-bridge-template",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/GrahamHewett/spotify_siftr",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "4.17.1",
+    "passport": "0.4.1",
+    "passport-spotify": "1.1.0",
+    "querystring": "0.2.0",
+    "request": "2.88.0"
+  }
+}
