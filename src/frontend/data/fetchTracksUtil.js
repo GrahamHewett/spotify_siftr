@@ -1,28 +1,17 @@
+import axios from 'axios';
+
 export default function fetchTracksUtil(token, limit, genre) {
-  console.log('passed token is', token);
-  return fetch(
-    `https://api.spotify.com/v1/playlists/${genre}/tracks`,
-    {
-      headers: { Authorization: "Bearer " + token }
-    }
+  return axios(`https://api.spotify.com/v1/playlists/${genre}/tracks`,
+    { headers: { Authorization: "Bearer " + token }}
   )     
-    .then(response => response.json())
-    .then(ptracks => {
-      if (ptracks && ptracks.length > 0) {
-        let pnames = ptracks.items.map(song => [
-          song.track.name,
-          song.track.artists[0].name,
-          song.track.album.name,
-          song.track.duration_ms,
-          song.track.popularity,
-          song.track.uri
-        ]);
-        let randomNames = [];
-        for (let i = 0; i < limit; i++) {
-          var randomNumber = Math.floor(Math.random() * pnames.length - 1);
-          randomNames.push(pnames[randomNumber]);
-        }
-        return randomNames;
-      }
-    });
+    .then(response => response.data.items)
+    .then(items => {
+      let songs = items.map(item => {
+        let {name, duration_ms, popularity, uri, album, artists} = item.track;
+        return {name, duration_ms, popularity, uri, album: album.name, artist: artists[0].name}
+      })
+      songs.length = limit;
+      console.log("limited songs are ", songs);
+      return songs;
+    })
 }
