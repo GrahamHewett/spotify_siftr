@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Header from "./frontend/views/Header";
+import LandingPage from "./frontend/views/landingPage";
 import UserData from "./frontend/data/getUserData";
 import GenresGrid from "./frontend/views/GenresGrid";
-import Slider from "./frontend/views/slider";
 import fetchTracksUtil from "./frontend/data/fetchTracksUtil";
-import Buttons from "./frontend/views/Buttons";
-// import LoggedInHeader from "./frontend/views/loggedInHeader";
 import FetchTracks from "./frontend/data/FetchTracks";
 // import CreatePLaylist from "./frontend/features/CreatePlaylist.js";
 
 export default function App() {
-  const [limit, setLimit] = useState(10);
   const [genre, setGenre] = useState("2ihY1sy2Eask1kLJME0UhG");
+  const [limit, setLimit] = useState(5);
   const [accessToken, setAccessToken] = useState(null);
   const [randomisedTracks, setRandomisedTracks] = useState(null);
 
   function logOut() {
     setAccessToken(null)
-    // console.log('url is ', window.location.href.split('?')[0])
-    window.history.pushState({}, document.title, "/")
+    setLimit(0);
+    // console.log('url is ', window.location.href.split('?')[0]);
+    // console.log('alt url is ', window.location.pathname);
+    window.history.pushState({}, document.title, window.location.pathname) //pushState or replaceState()?
   }
 
   useEffect(() => {
@@ -27,11 +26,12 @@ export default function App() {
     setAccessToken(new URLSearchParams(document.location.search.substring(1)).get("access_token"))
     console.log(accessToken, ' is accessToken' )
     if (!accessToken) return;
-    fetchTracksUtil(accessToken, limit, genre)
-      .then(randomNames => {
-          setRandomisedTracks(randomNames)
-      });
-  }, [accessToken, limit, genre]) 
+    async function initalTracks() {
+      const tracks = await fetchTracksUtil(accessToken, limit, genre);
+      setRandomisedTracks(tracks);
+    }
+    initalTracks()
+  }, [accessToken, limit, genre])
 
   const showPlaylist = (token, tracks) => {
     let trackUris = tracks.map(track => track[5]).join(',');
@@ -75,37 +75,21 @@ const LoggedInContent = () => {
   if (accessToken) {
     return <div>
       <UserData acToken={accessToken} logOut={() => logOut()} />
-      <GenresGrid
-      selectedGenre={genre}
-      onClick={playlistId => setGenre(playlistId)}
-    />
-    <div className="slider-container">
-      <div className="slider-container-box sl">
-        <Slider
-          limit={limit}
-          onChange={newLimit => setLimit(newLimit)}
-        />
-      </div>
-      <div className="slider-container-box">
-        <Buttons onGenerate={() => <FetchTracks />} />
-        <button
-          onClick={() =>
-            showPlaylist(
-              accessToken,
-              randomisedTracks
-            )
-          }
-        >
-          Add to your Playlist{" "}
-        </button>
-      </div>
-    </div>
+      <GenresGrid selectedGenre={genre} onClick={playlistId => setGenre(playlistId)}/>
+      
+        <div className="button-flex">
+            <button className="button-orange" onClick={() => 'generate Playlist'}>Generate new Playlist</button>
+          <button className="button-green" onClick={() => showPlaylist(accessToken, randomisedTracks)}>
+          Add Playlist to your Spotify
+          </button>
+        </div>
+    <FetchTracks tracks={randomisedTracks}/>
     </div>
   } return null;
 }
       return (
         <div className="App">
-          { accessToken ? <LoggedInContent /> : <Header />}
+          { accessToken ? <LoggedInContent /> : <LandingPage />}
         </div>
           // <FetchTracks tracks={randomisedTracks} />
       );

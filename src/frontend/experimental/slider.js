@@ -16,3 +16,16 @@ class Slider extends Component {
     }
 }
 export default Slider;
+
+// const TrackListCount = (e) => {
+//     const slider = document.getElementById("slider")
+//     return slider ? setLimit(slider.value) : null
+//     // return slider.value;
+//   }
+
+{/* <div className="slider-container-box sl">
+        <input id="slider" type="range" min="10" max="50" 
+          defaultValue="10" step="1" onChange={() => TrackListCount()}
+        />
+      <div> Number of Tracks shown: {limit}</div>
+      </div> */}

@@ -10,3 +10,8 @@ function setSessionItems() {
 }
 
 module.exports = {setSessionItems}
+
+//Cookies
+//Local Storage
+//IndexedDB
+//session middleware

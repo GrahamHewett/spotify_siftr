@@ -17,7 +17,7 @@ const GenresGrid = props => {
               ].join(' ')}
               onClick={() => props.onClick(genre.playlistId)}
             >
-              <img src={require(`./${genre.id}.jpg`)} alt="genre" />
+              <img src={require(`./images/${genre.id}.jpg`)} alt="genre" />
             </div>
           );
         })}

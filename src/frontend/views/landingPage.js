@@ -1,15 +1,12 @@
 import React from "react";
-// import logoSiftr from "./images/favicon.ico.PNG";
-import "./Header.css";
-// import getUserData from "../data/getUserData";
+import "./landingPage.css";
 
 const Header = () => {
   return (
-    <div className="section-header">
-      {/* <img src={logoSiftr} alt="Siftr" /> */}
+    <div className="landingPage">
       <h1>Welcome to Spotify Siftr</h1>
       <div className="">
-        <button
+        <button className="button-green"
           onClick={() => {
             window.location = window.location.href.includes("localhost")
               ? "http://localhost:8888/login"

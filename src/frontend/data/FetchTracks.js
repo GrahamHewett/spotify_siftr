@@ -8,7 +8,7 @@ function msConvert(millis) {
 }
 
 export default function FetchTracks({tracks}) {
-    if (tracks && tracks.length === 0) {
+    if (!tracks) {
       return <div>loading..</div>;
     } else if (tracks && tracks.length > 0){
       return (
@@ -26,19 +26,19 @@ export default function FetchTracks({tracks}) {
                 return (
                   <div key = {`track ${i}`} className="trackDeets">
                     <div className="trackName">
-                      {track[0]}
+                      {track.name}
                     </div>
                     <div className="trackName">
-                      {(track[1])}
+                      {(track.artist)}
                     </div>
                     <div className="trackName">
-                      {track[2]}
+                      {track.album}
                     </div>
                     <div className="trackName">
-                      {msConvert(track[3])}
+                      {msConvert(track.duration_ms)}
                     </div>
                     <div className="starPoo">
-                      The poularity is {track[4]}
+                      {popularityNotes(track.popularity)}
                     </div>
                   </div>
                 )

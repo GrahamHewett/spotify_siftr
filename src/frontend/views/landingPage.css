@@ -1,4 +1,4 @@
-.section-header {
+.landingPage {
   height: 100vh;
   width: 100%;
   color: #fff;
@@ -9,29 +9,11 @@
   text-align: center;
 }
 
-button {
-  background-color: #1db954;
-  border: none;
-  outline: none;
-  padding: 20px;
-  width: 300px;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: 50px;
-  font-size: 22px;
-}
-
-button:hover {
-  background-color: rgb(19, 134, 60);
-  transition: 0.2s;
-}
-
 svg {
   margin-bottom: -10px;
 }
 
-.section-header img {
+.landingPage img {
   width: 100px;
   margin: 30px;
   position: absolute;

@@ -38,6 +38,42 @@ body {
   display: block;
 }
 
+button {
+  border: none;
+  outline: none;
+  padding: 20px;
+  width: 300px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 50px;
+  font-size: 22px;
+  margin: 0% 4%;
+}
+
+.button-green {
+  background-color: #1db954;
+}
+
+.button-green:hover {
+  background-color: rgb(19, 134, 60);
+  transition: 0.2s;
+}
+
+.button-orange{
+  background-color: rgba(255, 196, 0, 0.699);
+}
+
+.button-orange:hover {
+  background-color: rgba(214, 164, 0, 0.719);
+  transition: 0.2s;
+}
+
+.button-flex {
+  display: flex;
+  justify-content: center;
+}
+
 .counter {
   width: 40%;
   display: inline-block;

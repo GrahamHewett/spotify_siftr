@@ -44,7 +44,7 @@ export default class UserData extends Component {
               <h2>Welcome, {this.state.user.name}</h2>
             </div>
             <div className="getUserData-box-2">
-              <button onClick={() => this.props.logOut ? this.props.logOut() : null}> Log out of Spotify</button>
+              <button className='button-green' onClick={() => this.props.logOut ? this.props.logOut() : null}> Log out of Spotify</button>
             </div>
           </div>
         </div>
