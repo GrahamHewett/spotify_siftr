@@ -27,7 +27,7 @@ app.get('/callback', function(req, res) {
       grant_type: 'authorization_code'
     },
     headers: {
-      'Authorization': 'Basic ' + (new Buffer(
+      'Authorization': 'Basic ' + (Buffer.from(
         '9a83fea5e2d04504a311aee6166ef775' + ':' + '92955232e75842e8ae6049bf18fbbba7'
       ).toString('base64'))
     },
@@ -35,8 +35,9 @@ app.get('/callback', function(req, res) {
   }
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token
-    let uri = req.protocol + '://' + req.get('host');
-    res.redirect(uri + '?access_token=' + access_token)
+    let uri = req.protocol + '://' + req.hostname;
+    console.log(req.hostname);
+    res.redirect(uri + ':3000' + '?access_token=' + access_token)
   })
 })
 
