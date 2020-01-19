@@ -1,4 +1,5 @@
 export default function fetchTracksUtil(token, limit, genre) {
+  console.log('passed token is', token);
   return fetch(
     `https://api.spotify.com/v1/playlists/${genre}/tracks`,
     {

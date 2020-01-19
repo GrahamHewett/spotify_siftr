@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import "./getUserData.css";
 
 export default class UserData extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: []
     };
@@ -44,7 +44,7 @@ export default class UserData extends Component {
               <h2>Welcome, {this.state.user.name}</h2>
             </div>
             <div className="getUserData-box-2">
-              <button> Log out of Spotify</button>
+              <button onClick={() => this.props.logOut ? this.props.logOut() : null}> Log out of Spotify</button>
             </div>
           </div>
         </div>

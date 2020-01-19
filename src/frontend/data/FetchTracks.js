@@ -1,6 +1,6 @@
 import React from "react";
 import "./fetchTracks.css";
-import popularityNotes from './'
+import popularityNotes from './popularityNotes'
 function msConvert(millis) {
   var minutes = Math.floor(millis / 60000);
   var seconds = ((millis % 60000) / 1000).toFixed(0);

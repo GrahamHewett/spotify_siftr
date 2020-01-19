@@ -5,22 +5,28 @@ import UserData from "./frontend/data/getUserData";
 import GenresGrid from "./frontend/views/GenresGrid";
 import Slider from "./frontend/views/slider";
 import fetchTracksUtil from "./frontend/data/fetchTracksUtil";
-// import Buttons from "./frontend/views/Buttons";
+import Buttons from "./frontend/views/Buttons";
 // import LoggedInHeader from "./frontend/views/loggedInHeader";
-// import FetchTracks from "./frontend/data/FetchTracks";
+import FetchTracks from "./frontend/data/FetchTracks";
 // import CreatePLaylist from "./frontend/features/CreatePlaylist.js";
 
 export default function App() {
   const [limit, setLimit] = useState(10);
   const [genre, setGenre] = useState("2ihY1sy2Eask1kLJME0UhG");
-  const [accessToken, setAccessToken] = useState(undefined);
-  const [randomisedTracks, setRandomisedTracks] = useState(undefined);
+  const [accessToken, setAccessToken] = useState(null);
+  const [randomisedTracks, setRandomisedTracks] = useState(null);
+
+  function logOut() {
+    setAccessToken(null)
+    // console.log('url is ', window.location.href.split('?')[0])
+    window.history.pushState({}, document.title, "/")
+  }
 
   useEffect(() => {
+    console.log('useEffect ran')
     setAccessToken(new URLSearchParams(document.location.search.substring(1)).get("access_token"))
-    // let parsed = queryString.parse(window.location.search);
-    // let accessToken = parsed.access_token;
-    if (accessToken) return;
+    console.log(accessToken, ' is accessToken' )
+    if (!accessToken) return;
     fetchTracksUtil(accessToken, limit, genre)
       .then(randomNames => {
           setRandomisedTracks(randomNames)
@@ -65,9 +71,10 @@ const fillPlaylist = (token, trackUris, playlistId) => {
 }
 
 const LoggedInContent = () => {
-  if (!accessToken) {
+  console.log('tracks are', randomisedTracks)
+  if (accessToken) {
     return <div>
-      <UserData acToken={accessToken} />
+      <UserData acToken={accessToken} logOut={() => logOut()} />
       <GenresGrid
       selectedGenre={genre}
       onClick={playlistId => setGenre(playlistId)}
@@ -80,7 +87,7 @@ const LoggedInContent = () => {
         />
       </div>
       <div className="slider-container-box">
-        {/* <Buttons onGenerate={() => getTracks()} /> */}
+        <Buttons onGenerate={() => <FetchTracks />} />
         <button
           onClick={() =>
             showPlaylist(
@@ -98,7 +105,7 @@ const LoggedInContent = () => {
 }
       return (
         <div className="App">
-          { true ? <LoggedInContent /> : <Header />}
+          { accessToken ? <LoggedInContent /> : <Header />}
         </div>
           // <FetchTracks tracks={randomisedTracks} />
       );
