@@ -1,13 +1,12 @@
-import React from 'react'
+let trackUris;
+let playlistName = "Dummy Name"
 
 export default function createPlaylist(token, tracks) {
-    let trackUris = tracks.map(track => track[5])
-    return (
-        <div className="button-box">
-          <button onClick = {() => getUserId(token, trackUris) }> Add to your playlist </button>
-        </div>
-    )
+    trackUris = tracks.map(track => track.uri)
+    let result = getUserId(token, trackUris)
+    console.log("result is ", result);
 }
+
 function getUserId(token, trackUris){
     return fetch("https://api.spotify.com/v1/me", {
       headers: { Authorization: "Bearer " + token }
@@ -16,26 +15,28 @@ function getUserId(token, trackUris){
       .then(data => createNewPlaylist(token, trackUris, data.id))
 }
 
-function createNewPlaylist(token, trackUris, user) {
-    return fetch(`https://api.spotify.com/v1/users/${user}/playlists`,
-    {
-        headers: { Authorization: "Bearer " + token },
-        method: "POST",
-        body: {
-            "name": "Siftr Playlist",
-            "description": "New Siftr Playlist",
-            "public": false
-          }
+const createNewPlaylist = (token, trackUris, user) => {
+  return fetch(`https://api.spotify.com/v1/users/${user}/playlists`, {
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({
+      name: playlistName,
+      description: "New Siftr Playlist",
+      public: false
     })
-        .then(response => response.json())
-        .then(newPlaylist => fillPlaylist(token , trackUris, newPlaylist.id))
+  })
+    .then(response => response.json())
+    .then(newPlaylist => fillPlaylist(token , trackUris, newPlaylist.id))
 }
-   
-function fillPlaylist(token, trackUris, playlistId) {
-    return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks,`,
+
+const fillPlaylist = (token, trackUris, playlistId) => {
+    return fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?position=0&uris=${trackUris}`,
     {
-        headers: { Authorization: "Bearer " + token },
+        headers: { Authorization: "Bearer " + token},
         method: "POST",
-        body: {"uris": trackUris}
-    })
+        body: JSON.stringify({uris: trackUris})
+    }).then(alert(`Rock On! All tracks have been added to ${playlistName} Playlist on your spotify account.`))
 }
