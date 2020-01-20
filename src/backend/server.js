@@ -36,7 +36,6 @@ app.get('/callback', function(req, res) {
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token
     let uri = req.protocol + '://' + req.hostname;
-    console.log(req.hostname);
     res.redirect(uri + ':3000' + '?access_token=' + access_token)
   })
 })

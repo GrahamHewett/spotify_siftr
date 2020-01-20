@@ -22,6 +22,11 @@ function logOut() {
   // console.log('alt url is ', window.location.pathname);
   window.history.pushState({}, document.title, window.location.pathname) //pushState or replaceState()?
 }
+
+function editPlaylistName(e) {
+  e.preventDefault();
+  setPlaylistName(e.target.value)
+}
   
   useEffect(() => {
     console.log('useEffect ran', document.location.search)
@@ -34,27 +39,25 @@ function logOut() {
     initalTracks()
   }, [accessToken, limit, genre])
 
-const LoggedInContent = () => {
-  console.log('tracks are', randomisedTracks)
-  if (accessToken) {
-    return <div>
-      <UserData acToken={accessToken} logOut={() => logOut()} />
-      <GenresGrid onClick={playlistId => setGenre(playlistId)}/>
-      <div className="button-flex">
-        <button className="button-orange" onClick={() => console.log('generate Playlist')}>Generate new Playlist</button>
-          <button className="button-green" onClick={() => createPlaylist(accessToken, randomisedTracks)}>
-            Add Playlist to your Spotify
-          </button>
-      </div>
-    <h2>Enter playlist name: <input type='text' value={playlistName} onChange={(e) => setPlaylistName(e.target.value)} /></h2>
-    <FetchTracks tracks={randomisedTracks}/>
-    </div>
-  } return null;
-}
-      return (
-        <div className="App">
-          { accessToken ? <LoggedInContent /> : <LandingPage />}
+  const LoggedInContent = () => {
+    console.log('tracks are', randomisedTracks)
+      return <div>
+        <UserData token={accessToken} logOut={() => logOut()} />
+        <GenresGrid onClick={playlistId => setGenre(playlistId)}/>
+        <div className="button-flex">
+          <button className="button-orange" onClick={() => console.log('generate Playlist')}>Generate new   Playlist</button>
+            <button className="button-green" onClick={() => createPlaylist(accessToken, randomisedTracks)}>
+              Add Playlist to your Spotify
+            </button>
         </div>
-          // <FetchTracks tracks={randomisedTracks} />
-      );
+      <h2>Enter playlist name: <input type='text' value={playlistName} onChange={(e) => editPlaylistName(e)} /></h2>
+      <FetchTracks tracks={randomisedTracks}/>
+      </div>
+  }
+
+  return (
+    <div className="App">
+      { accessToken ? <LoggedInContent /> : <LandingPage />}
+    </div>
+  );
 }
