@@ -3,6 +3,7 @@ let request = require('request')
 let querystring = require('querystring')
 let path = require('path')
 let app = express()
+let port = process.env.PORT || 8888
 
 // let redirect_uri = req.protocol + '://' + req.get('host') + '/callback'
 let redirect_uri = process.env.REDIRECT_URI || 'http://localhost:8888/callback'
@@ -35,8 +36,8 @@ app.get('/callback', function(req, res) {
   }
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token
-    let uri = req.protocol + '://' + req.hostname;
-    res.redirect(uri + ':3000' + '?access_token=' + access_token)
+    console.log("protocol =", req.protocol, "hostname =", req.hostname, "env port =", process.env.port)
+    res.redirect(`${req.protocol}://${req.hostname}:${process.env.port || 3000}?access_token=${access_token}`)
   })
 })
 
@@ -46,6 +47,5 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../../../build', 'index.html'));
 });
 
-let port = process.env.PORT || 8888
 console.log(`Listening on port ${port}. Go /login to initiate authentication flow.`)
 app.listen(port)

@@ -4,7 +4,7 @@ import LandingPage from "./frontend/views/landingPage";
 import UserData from "./frontend/data/getUserData";
 import GenresGrid from "./frontend/views/GenresGrid";
 import fetchTracksUtil from "./frontend/data/fetchTracksUtil";
-import FetchTracks from "./frontend/data/FetchTracks";
+import DisplayPlaylist from "./frontend/data/DisplayPlaylist";
 import createPlaylist from "./frontend/features/CreatePlaylist.js";
 
 export default function App() {
@@ -51,7 +51,8 @@ function editPlaylistName(e) {
             </button>
         </div>
       <h2>Enter playlist name: <input type='text' value={playlistName} onChange={(e) => editPlaylistName(e)} /></h2>
-      <FetchTracks tracks={randomisedTracks}/>
+      {/* <h2>Total duration of playlist: </h2> */}
+      <DisplayPlaylist tracks={randomisedTracks}/>
       </div>
   }
 
