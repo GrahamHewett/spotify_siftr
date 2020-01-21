@@ -13,7 +13,7 @@ export default function DisplayPlaylist({tracks}) {
       return <div>loading..</div>;
     } else if (tracks && tracks.length > 0){
       return (
-        <div className="grid">
+        <div id="playlist-tracks" className="grid">
           <div className="row">
             <h3 className="track-details">Track name</h3>
             <h3 className="track-details">Artist</h3>

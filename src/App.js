@@ -37,7 +37,7 @@ export default function App() {
     if (!accessToken) return;
     asyncFetchTracks()
     // eslint-disable-next-line
-  }, [])
+  }, [genre])
 
   return (
     <div className="App">
@@ -45,18 +45,18 @@ export default function App() {
         <UserData token={accessToken} logOut={() => logOut()} />
         <GenresGrid onClick={playlistId => setGenre(playlistId)}/>
         <div className="button-flex">
-          <button className="button-orange" onClick={() => asyncFetchTracks()}>Generate new Playlist</button>
-            <button className="button-green" onClick={() => createPlaylist(accessToken, randomisedTracks)}>
-              Add Playlist to your Spotify
+          <button className="button-orange" onClick={() => asyncFetchTracks()}>Generate new playlist tracks</button>
+            <button className="button-green" onClick={() => createPlaylist(accessToken, randomisedTracks, playlistName)}>
+              Add playlist to your Spotify
             </button>
         </div>
         <div className="slidecontainer">
           <input type="range" min="10" max="50" className= "slider" id="myRange" 
             value={limit} onChange={(e) => setLimit(e.target.value)}>
           </input>
-        <div>Number of Tracks shown: {limit}</div>
+        <div>Number of Tracks requested: {limit}</div>
     </div>
-        <h2>Enter playlist name: <input type='text' value={playlistName} onChange={(e) => editPlaylistName(e)} /></h2>
+        <h2 className="playlistName">Enter playlist name: <input type='text' value={playlistName} onChange={(e) => editPlaylistName(e)} /></h2>
         <DisplayPlaylist tracks={randomisedTracks}/>
       </>: <LandingPage />}
     </div>

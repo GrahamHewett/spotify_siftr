@@ -8,30 +8,10 @@
 html,
 body {
   background-color: white;
-  color: #555;
+  color: black;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 18px;
-}
-
-.playlist {
-  display: inline-block;
-  width: 25%;
-  padding: 10px;
-}
-.playlist-name {
-  color: blue;
-}
-.playlist-image {
-  width: 60px;
-}
-.playlist-tracks {
-  margin-top: 10px;
-  font-weight: bold;
-  padding-top: 2px;
-}
-
-.rocktracks {
-  display: block;
+  scroll-behavior: smooth;
 }
 
 button {
@@ -71,14 +51,10 @@ button {
   margin: 2rem 2vh
 }
 
-.counter {
-  width: 40%;
-  display: inline-block;
-  margin-bottom: 20px;
-  font-size: 20px;
-  line-height: 30px;
-}
-
 h1 {
   padding-top: 15%;
+}
+
+.playlistName {
+  padding: 1rem 0rem;
 }

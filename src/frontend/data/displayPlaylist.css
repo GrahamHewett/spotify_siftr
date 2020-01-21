@@ -1,13 +1,15 @@
 .grid {
     display: grid;
-    margin: 2rem 2vh 0rem 2vh;
+    background-image: url("../views/images/deck.jpeg");
 }
 .row {
     display: flex;
+    color: white;
+    backdrop-filter: brightness(50%) blur(4px);
 }
 h3.track-details{
     flex: 3;
-    padding: 0rem;
+    padding: 1.5rem 0rem 0rem;
     text-align: center;
     margin: 0;
     font-size: 22px;
@@ -21,7 +23,7 @@ h3.track-details{
 
 h3.small-col{
     flex: 2;
-    padding: 0rem;
+    padding: 1.5rem 0rem 0rem;
     text-align: center;
     font-size: 20px;
     border-bottom: 3px solid rgba(255, 196, 0, 0.418); 

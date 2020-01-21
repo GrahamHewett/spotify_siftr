@@ -1,12 +1,25 @@
+.section-genresGrid {
+  background: url("./images/band.jpeg");
+  background-size: cover;
+}
+
+.section-genresGrid h1 {
+  font-size: 40px;
+  padding-top: 40px;
+  color: white;
+  z-index: 0;
+  backdrop-filter: blur(3px);
+}
+
 .genre-container {
+  text-align: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* margin: 20px 30px; */
+  backdrop-filter: blur(3px);
 }
 
 .genre-item {
-  position: relative;
   flex: 0;
   flex-basis: 20vw;
   box-sizing: border-box;
@@ -18,15 +31,4 @@
 img {
   height: 100%;
   width: 100%;
-  /* background-image: linerar-gradient(rgba(0,0,0, 0.9));  */
-}
-
-.section-genresGrid {
-  text-align: center;
-  background-color: blue;
-}
-
-.section-genresGrid h1 {
-  font-size: 40px;
-  padding-top: 40px;
 }
