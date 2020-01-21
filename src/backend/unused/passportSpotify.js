@@ -30,10 +30,10 @@ passport.use(
   
   app.get(
 	'/auth/spotify/callback',
-	passport.authenticate('spotify', { failureRedirect: '/login' }),
+	passport.authenticate('spotify', { failureRedirect: '/' }),
 	function(req, res) {
 	  // Successful authentication, redirect home.
-	  res.redirect('/');
+	  res.redirect('loggedIn/');
 	}
   );
 

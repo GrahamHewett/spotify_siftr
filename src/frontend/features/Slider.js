@@ -1,19 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import "./slider.css"
 
-class Slider extends Component {
-
-    render() {
-       return (
-            <div className="slidecontainer">
-            <input 
-                type="range" min="10" max="50" className= "slider" id="myRange" 
-                value={this.props.limit}
-                onChange={(e) => this.props.onChange(e.target.value)}></input>
-            <div> Number of Tracks shown: {this.props.limit}</div>
-            </div>
-        );
-    }
+function Slider({sliderLimit}) {
+  return (
+    <div className="slidecontainer">
+      <input type="range" min="10" max="50" className= "slider" id="myRange" 
+          value={limit} onChange={(e) => setLimit(e.target.value)}>
+      </input>
+      <div>Number of Tracks shown: {limit}</div>
+    </div>
+  );
 }
 export default Slider;
 
