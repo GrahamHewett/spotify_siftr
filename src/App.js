@@ -1,64 +1,64 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import "./frontend/features/slider.css"
 import LandingPage from "./frontend/views/landingPage";
 import UserData from "./frontend/data/getUserData";
 import GenresGrid from "./frontend/views/GenresGrid";
-import fetchTracksUtil from "./frontend/data/fetchTracksUtil";
+import fetchTracks from "./frontend/data/fetchTracks";
 import DisplayPlaylist from "./frontend/data/DisplayPlaylist";
 import createPlaylist from "./frontend/features/CreatePlaylist.js";
 
 export default function App() {
-
+  console.log('line 11 now', new URLSearchParams(document.location.search.substring(1)).get("access_token"))
   const [genre, setGenre] = useState("2ihY1sy2Eask1kLJME0UhG");
-  const [limit, setLimit] = useState(5);
-  const [accessToken, setAccessToken] = useState(null);
+  const [limit, setLimit] = useState(10);
+  const [accessToken, setAccessToken] = useState(new URLSearchParams(document.location.search.substring(1)).get("access_token"));
   const [randomisedTracks, setRandomisedTracks] = useState(null);
   const [playlistName, setPlaylistName] = useState("Siftr Playlist");
 
-function logOut() {
-  setAccessToken(null)
-  setLimit(0);
-  // console.log('url is ', window.location.href.split('?')[0]);
-  // console.log('alt url is ', window.location.pathname);
-  window.history.pushState({}, document.title, window.location.pathname) //pushState or replaceState()?
-}
+  function logOut() {
+    setAccessToken(null)
+    setLimit(0);
+    // console.log('url is ', window.location.href.split('?')[0]);
+    // console.log('alt url is ', window.location.pathname);
+    window.history.pushState({}, document.title, window.location.pathname) //pushState or replaceState()?
+  }
+  function editPlaylistName(e) {
+    e.preventDefault();
+    setPlaylistName(e.target.value)
+  }
+  async function asyncFetchTracks() {
+    const tracks = await fetchTracks(accessToken, limit, genre);
+    setRandomisedTracks(tracks);
+  }
 
-function editPlaylistName(e) {
-  e.preventDefault();
-  setPlaylistName(e.target.value)
-}
-  
   useEffect(() => {
-    console.log('useEffect ran', document.location.search)
-    if (document.location.search) setAccessToken(new URLSearchParams(document.location.search.substring(1)).get("access_token"))
+    console.log("use effect ran")
     if (!accessToken) return;
-    async function initalTracks() {
-      const tracks = await fetchTracksUtil(accessToken, limit, genre);
-      setRandomisedTracks(tracks);
-    }
-    initalTracks()
-  }, [accessToken, limit, genre])
+    asyncFetchTracks()
+    // eslint-disable-next-line
+  }, [])
 
-  const LoggedInContent = () => {
-    console.log('tracks are', randomisedTracks)
-      return <div>
+  return (
+    <div className="App">
+      { accessToken ? <>
         <UserData token={accessToken} logOut={() => logOut()} />
         <GenresGrid onClick={playlistId => setGenre(playlistId)}/>
         <div className="button-flex">
-          <button className="button-orange" onClick={() => console.log('generate Playlist')}>Generate new   Playlist</button>
+          <button className="button-orange" onClick={() => asyncFetchTracks()}>Generate new Playlist</button>
             <button className="button-green" onClick={() => createPlaylist(accessToken, randomisedTracks)}>
               Add Playlist to your Spotify
             </button>
         </div>
-      <h2>Enter playlist name: <input type='text' value={playlistName} onChange={(e) => editPlaylistName(e)} /></h2>
-      {/* <h2>Total duration of playlist: </h2> */}
-      <DisplayPlaylist tracks={randomisedTracks}/>
-      </div>
-  }
-
-  return (
-    <div className="App">
-      { accessToken ? <LoggedInContent /> : <LandingPage />}
+        <div className="slidecontainer">
+          <input type="range" min="10" max="50" className= "slider" id="myRange" 
+            value={limit} onChange={(e) => setLimit(e.target.value)}>
+          </input>
+        <div>Number of Tracks shown: {limit}</div>
+    </div>
+        <h2>Enter playlist name: <input type='text' value={playlistName} onChange={(e) => editPlaylistName(e)} /></h2>
+        <DisplayPlaylist tracks={randomisedTracks}/>
+      </>: <LandingPage />}
     </div>
   );
 }
