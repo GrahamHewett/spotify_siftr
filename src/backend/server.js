@@ -36,8 +36,9 @@ app.get('/callback', function(req, res) {
   }
   request.post(authOptions, function(error, response, body) {
     let access_token = body.access_token
-    console.log("protocol =", req.protocol, "hostname =", req.hostname, "env PORT =", process.env.PORT)
-    res.redirect(`${req.protocol}://${req.hostname}:${process.env.PORT || port}/?access_token=${access_token}`)
+    let frontendURI = req.hostname === 'localhost' ? `${req.protocol}://${req.hostname}:${port}/?access_token=${access_token}`: `${req.protocol}://${req.hostname}/?access_token=${access_token}`
+    console.log(frontendURI);
+    res.redirect(frontendURI);
   })
 })
 
