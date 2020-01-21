@@ -10,7 +10,7 @@ const Header = () => {
           onClick={() => {
             window.location = window.location.href.includes("localhost")
               ? "http://localhost:8888/login"
-              : "https://spotify-siftr.herokuapp.com/login";
+              : "https://spotify-siftr-v2.herokuapp.com/login";
           }}
         >
           <svg
