@@ -37,7 +37,7 @@ app.get('/callback', function(req, res) {
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token
     console.log("protocol =", req.protocol, "hostname =", req.hostname, "env port =", process.env.port)
-    res.redirect(`${req.protocol}://${req.hostname}:${process.env.port || port}/loggedIn?access_token=${access_token}`)
+    res.redirect(`${req.protocol}://${req.hostname}:${process.env.port || port}/?access_token=${access_token}`)
   })
 })
 
