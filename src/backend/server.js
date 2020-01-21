@@ -35,9 +35,9 @@ app.get('/callback', function(req, res) {
     json: true
   }
   request.post(authOptions, function(error, response, body) {
-    var access_token = body.access_token
-    console.log("protocol =", req.protocol, "hostname =", req.hostname, "env port =", process.env.port)
-    res.redirect(`${req.protocol}://${req.hostname}:${process.env.port || port}/?access_token=${access_token}`)
+    let access_token = body.access_token
+    console.log("protocol =", req.protocol, "hostname =", req.hostname, "env PORT =", process.env.PORT)
+    res.redirect(`${req.protocol}://${req.hostname}:${process.env.PORT || port}/?access_token=${access_token}`)
   })
 })
 

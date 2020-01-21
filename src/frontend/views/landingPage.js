@@ -2,6 +2,11 @@ import React from "react";
 import "./landingPage.css";
 
 const Header = () => {
+
+  function setToken() {
+    
+  }
+
   return (
     <div className="landingPage">
       <h1>Welcome to Spotify Siftr</h1>
@@ -11,6 +16,7 @@ const Header = () => {
             window.location = window.location.href.includes("localhost")
               ? "http://localhost:8888/login"
               : "https://spotify-siftr-v2.herokuapp.com/login";
+            setToken(true)
           }}
         >
           <svg
